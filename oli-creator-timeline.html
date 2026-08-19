@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oli Creator — Diretor de Cinema, Criativo & Serviços Audiovisuais</title>
+    
+    <!-- Google Fonts for Editorial Retro Cinema Aesthetics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Oswald:wght@400;500;700&family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --brand-red: #8C1226;
+            --brand-dark-red: #5A0A17;
+            --brand-cream: #F3EFE6;
+            --brand-card-cream: #E6E0D2;
+            --brand-black: #121212;
+            --brand-gold: #D97706;
+        }
+
+        body {
+            background-color: var(--brand-cream);
+            color: var(--brand-black);
+            font-family: 'Roboto Condensed', sans-serif;
+            background-image: radial-gradient(#d3cbbe 0.75px, transparent 0.75px);
+            background-size: 16px 16px;
+        }
+
+        .font-bebas { font-family: 'Bebas Neue', sans-serif; }
+        .font-oswald { font-family: 'Oswald', sans-serif; }
+        .font-editorial { font-family: 'Instrument Serif', serif; }
+
+        /* Outlined Big Text Effects */
+        .text-stroke-dark {
+            -webkit-text-stroke: 2px #121212;
+            color: transparent;
+        }
+        .text-stroke-red {
+            -webkit-text-stroke: 1.5px #8C1226;
+            color: transparent;
+        }
+
+        /* Film Perforated / Stamp Border Effect */
+        .stamp-border {
+            border: 8px solid #8C1226;
+            outline: 3px dashed #F3EFE6;
+            outline-offset: -6px;
+            box-shadow: 0 20px 30px -5px rgba(0,0,0,0.4);
+        }
+
+        /* Duotone Red Image Blend */
+        .duotone-overlay {
+            background-color: var(--brand-red);
+            mix-blend-mode: multiply;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--brand-cream);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--brand-red);
+            border-radius: 4px;
+        }
+
+        .gallery-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+                .gallery-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -6px rgba(140, 18, 38, 0.3);
+        }
+
+        /* Folha de trajetória: abre com uma entrada suave a partir da base */
+        .timeline-sheet-backdrop {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+        .timeline-sheet-backdrop.is-open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .timeline-sheet {
+            transform: translateY(42px) scale(0.97) rotateX(2deg);
+            opacity: 0;
+            transition: transform 0.55s cubic-bezier(.22, 1, .36, 1), opacity 0.4s ease;
+            transform-origin: bottom center;
+        }
+        .timeline-sheet-backdrop.is-open .timeline-sheet {
+            transform: translateY(0) scale(1) rotateX(0);
+            opacity: 1;
+        }
+        .timeline-sheet-rule {
+            background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(140,18,38,.13) 32px);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .timeline-sheet-backdrop, .timeline-sheet { transition: none; }
+        }
+        .service-sheet-backdrop { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .3s ease, visibility .3s ease; }
+        .service-sheet-backdrop.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+        .service-sheet { transform: translateY(36px) scale(.98); opacity: 0; transition: transform .45s cubic-bezier(.22,1,.36,1), opacity .35s ease; }
+        .service-sheet-backdrop.is-open .service-sheet { transform: translateY(0) scale(1); opacity: 1; }
+
+        /* Hover suave para a logo e as abas da linha do tempo */
+        .brand-logo, .year-tab {
+            position: relative;
+            transition: transform .28s cubic-bezier(.22,1,.36,1), color .28s ease, text-shadow .28s ease;
+        }
+        .brand-logo:hover {
+            transform: translateY(-2px);
+            text-shadow: 0 3px 12px rgba(255, 226, 150, .35);
+        }
+        .brand-logo:hover i {
+            transform: rotate(-8deg) scale(1.12);
+        }
+        .brand-logo i {
+            display: inline-block;
+            transition: transform .28s cubic-bezier(.22,1,.36,1);
+        }
+        .year-tab:hover {
+            transform: translateY(-3px);
+            text-shadow: 0 3px 8px rgba(140,18,38,.22);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .brand-logo, .brand-logo i, .year-tab { transition: none; }
+        }
+
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-red-900 selection:text-amber-100">
+
+    <!-- HEADER -->
+    <header class="bg-[#8C1226] text-[#F3EFE6] sticky top-0 z-50 shadow-xl border-b-2 border-red-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Director Logo/Brand -->
+            <a href="#hero" class="brand-logo font-oswald text-2xl tracking-wide font-bold flex items-center gap-2 hover:text-amber-200 transition">
+                <i class="fa-solid fa-clapperboard text-amber-300"></i> OliCreator <span class="text-xs font-normal text-amber-200/80 hidden sm:inline uppercase tracking-widest">| DIREÇÃO & PRODUÇÃO</span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center space-x-6 text-xs uppercase tracking-widest font-bold">
+                                <a href="#about" data-i18n="about" class="hover:text-amber-200 transition">Sobre</a>
+                <a href="#journey" data-i18n="journey" class="hover:text-amber-200 transition">Trajetória </a>
+                <a href="#portfolio" data-i18n="portfolio" class="hover:text-amber-200 transition">Obras & Séries</a>
+                <a href="#events" data-i18n="services" class="hover:text-amber-200 transition">Serviços & Eventos</a>
+                <a href="#gallery" data-i18n="gallery" class="hover:text-amber-200 transition">Galeria</a>
+                <a href="#results" data-i18n="results" class="hover:text-amber-200 transition">Resultados</a>
+
+            </nav>
+
+            <!-- Action Controls -->
+            <div class="flex items-center space-x-4">
+                                <button id="languageToggle" type="button" class="border border-amber-200/70 text-amber-100 px-3 py-2 font-oswald font-bold text-xs uppercase tracking-wider hover:bg-amber-200 hover:text-[#8C1226] transition" aria-label="Mudar idioma para inglês">PT / EN</button>
+                <a href="#contact" data-i18n="hire" class="hidden sm:inline-block bg-amber-200 text-[#8C1226] px-4 py-2 font-oswald font-bold text-xs uppercase tracking-wider hover:bg-white transition shadow">
+                    Contratar Direção
+                </a>
+
+                <button id="mobileMenuBtn" class="lg:hidden p-2 text-xl focus:outline-none text-amber-100">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-[#5A0A17] px-4 pt-2 pb-4 space-y-2 border-t border-red-900">
+                        <a href="#about" data-i18n="about" class="block py-2 text-xs uppercase tracking-wider hover:text-amber-200">Sobre</a>
+            <a href="#journey" data-i18n="journey" class="block py-2 text-xs uppercase tracking-wider hover:text-amber-200">Trajetória</a>
+            <a href="#portfolio" data-i18n="portfolio" class="block py-2 text-xs uppercase tracking-wider hover:text-amber-200">Obras</a>
+            <a href="#events" data-i18n="services" class="block py-2 text-xs uppercase tracking-wider hover:text-amber-200">Serviços & Eventos</a>
+            <a href="#gallery" data-i18n="gallery" class="block py-2 text-xs uppercase tracking-wider hover:text-amber-200">Galeria</a>
+            <a href="#results" data-i18n="results" class="block py-2 text-xs uppercase tracking-wider hover:text-amber-200">Marcas</a>
+
+            <a href="#contact" class="block py-2 text-xs uppercase tracking-wider text-amber-300 font-bold">Falar com o Diretor</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative pt-12 pb-20 overflow-hidden border-b border-stone-300">
+        <div class="max-w-6xl mx-auto px-4 text-center relative z-10">
+            
+            <p class="text-xs sm:text-sm font-bold uppercase tracking-[0.3em] text-[#8C1226] mb-3 flex items-center justify-center gap-2 flex-wrap">
+                <span>• DIREÇÃO CINEMATOGRÁFICA</span>
+            </p>
+
+            <h1 class="font-oswald text-6xl sm:text-8xl md:text-9xl font-bold tracking-tight text-[#8C1226] uppercase leading-none drop-shadow-sm">
+                CARLOS OLIVEIRA
+            </h1>
+
+            <div class="flex flex-wrap justify-between items-center text-xs sm:text-sm uppercase font-bold tracking-widest text-stone-700 max-w-3xl mx-auto my-4 px-3 border-y-2 border-stone-400 py-2 gap-2">
+                <span>PENSO COMO DIRETOR</span>
+                <span class="text-[#8C1226] hidden sm:inline">•</span>
+                <span>EXECUTO COMO CRIADOR</span>
+                <span class="text-[#8C1226] hidden sm:inline">•</span>
+                <span>ENTREGO RESULTADOS REAIS</span>
+            </div>
+
+            <!-- Director Cutout / Hero Visual Frame -->
+            <div class="relative max-w-md sm:max-w-xl mx-auto mt-8 group">
+                <div class="absolute inset-0 bg-[#8C1226] rounded-full blur-3xl opacity-25 group-hover:opacity-40 transition"></div>
+                
+                <div class="relative z-10 bg-stone-900 rounded-lg p-2 border-4 border-[#8C1226] shadow-2xl overflow-hidden">
+                    <img src="./img/Carliteira 01.jpg.jpeg" 
+                         alt="Carlos Oliveira no Set de Filmagem" 
+                         class="w-full h-[360px] sm:h-[660px] object-cover rounded grayscale contrast-125 group-hover:scale-105 transition duration-700">
+                    
+                    <div class="absolute bottom-4 left-4 right-4 bg-[#8C1226]/90 backdrop-blur-md text-[#F3EFE6] p-3 rounded flex justify-between items-center border border-amber-300/30">
+                        <div class="text-left">
+                            <span class="text-[10px] uppercase font-bold text-amber-200 block">DIRETOR DE CENA & PRODUÇÃO AUDIOVISUAL</span>
+                            <p class="font-oswald text-lg uppercase tracking-wider font-bold">CARLOS OLIVEIRA</p>
+                        </div>
+                        <span class="bg-amber-200 text-[#8C1226] text-xs font-bold px-3 py-1 uppercase rounded tracking-wider">
+                            EM SET
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Statistics Bar -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mt-12">
+                <div class="bg-[#E6E0D2] p-4 rounded border-2 border-stone-300 text-center shadow">
+                    <span class="font-oswald text-3xl sm:text-4xl font-bold text-[#8C1226] block">+5 ANOS</span>
+                    <span class="text-xs uppercase font-bold tracking-wider text-stone-700">De Experiência Técnica</span>
+                </div>
+                <div class="bg-[#E6E0D2] p-4 rounded border-2 border-stone-300 text-center shadow">
+                    <span class="font-oswald text-3xl sm:text-4xl font-bold text-[#8C1226] block">+30 PROJETOS</span>
+                    <span class="text-xs uppercase font-bold tracking-wider text-stone-700">Eventos & Campanhas</span>
+                </div>
+                <div class="bg-[#E6E0D2] p-4 rounded border-2 border-stone-300 text-center shadow">
+                    <span class="font-oswald text-3xl sm:text-4xl font-bold text-[#8C1226] block">+5 OBRAS</span>
+                    <span class="text-xs uppercase font-bold tracking-wider text-stone-700">Autorais</span>
+                </div>
+                <div class="bg-[#E6E0D2] p-4 rounded border-2 border-stone-300 text-center shadow">
+                    <span class="font-oswald text-3xl sm:text-4xl font-bold text-[#8C1226] block">+130K VIEWS</span>
+                    <span class="text-xs uppercase font-bold tracking-wider text-stone-700">Projectos feitos</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-16 md:py-20 max-w-6xl mx-auto px-4 border-b border-stone-300">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            
+            <div class="md:col-span-5 space-y-4">
+                <span class="text-xs font-bold uppercase tracking-widest text-[#8C1226] block">
+                    • FILOSOFIA DE DIREÇÃO
+                </span>
+                <h2 class="font-oswald text-3xl sm:text-5xl font-bold uppercase text-stone-900 leading-tight">
+                    APAIXONADO PELO CINEMA, FOCADO EM RESULTADOS
+                </h2>
+                <div class="w-16 h-1 bg-[#8C1226]"></div>
+            </div>
+
+            <div class="md:col-span-7 space-y-4 text-stone-800 text-base leading-relaxed font-sans">
+                <p class="font-bold text-stone-900 text-lg">
+                   Com mais de cinco anos de experiência no audiovisual, evoluí de editor técnico para Diretor e Criativo, trabalhando em minisséries, eventos, produções ao vivo, conteúdos institucionais e pós-produção.
+                </p>
+                <p>
+                   Já colaborei com a <strong>TV Kaluanda</strong>, a agência <strong>Ondaka</strong> prestando serviço ao <strong>Ministério da Juventude e Desportos</strong> como filmmaker oficial de Sua <strong>Excelência Ministro da Juventude e Desportos</strong> e diversas marcas, instituições e organizações. Participei na cobertura dos <strong>Jogos Africanos em Angola</strong>, um dos maiores desafios da minha carreira, onde captei e editei conteúdos em português, inglês e francês, num evento que reuniu representantes de quase todos os países africanos.
+                </p>
+                <p>
+                   Também trabalhei na <strong>FILDA</strong> com a <strong>MProject</strong> prestando serviço a <strong>Ferpinta</strong>, produzi conteúdos para diferentes sectores e captei artistas como Yuri da Cunha, Filho do Zua e Nuno Baio, além de realizar trabalhos em eventos sociais, corporativos, religiosos e sets para DJs.
+                   Mais do que captar imagens, conto histórias, dirijo experiências e transformo cada produção numa narrativa visual com identidade e impacto. 
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- TIMELINE SECTION (2022 - 2026) -->
+    <section id="journey" class="py-16 md:py-24 max-w-6xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-start gap-8 lg:gap-16">
+            
+            <!-- Left Side: Year Header -->
+            <div class="w-full md:w-1/3">
+                <span class="text-xs font-bold uppercase tracking-widest text-[#8C1226] block mb-2">
+                    • LINHA DO TEMPO & EVOLUÇÃO
+                </span>
+                <div id="bigYearDisplay" class="font-oswald text-8xl sm:text-9xl font-extrabold text-stroke-dark leading-none transition-all duration-300">
+                    2022
+                </div>
+                <p class="text-stone-600 text-sm mt-4 leading-relaxed font-sans">
+                    Navegue pelos marcos que definiram a transformação de um editor de videoclipes em um Diretor Criativo e Prestador de Serviços Multimídia completo.
+                </p>
+            </div>
+
+            <!-- Right Side: Timeline Content Box -->
+            <div class="w-full md:w-2/3">
+                <!-- Year Navigation Bar -->
+                <div class="flex flex-wrap items-center gap-3 sm:gap-6 border-b-2 border-stone-400 pb-3 mb-6 font-oswald text-xl sm:text-2xl">
+                                        <button onclick="switchYear('2022')" class="year-tab text-[#8C1226] border-b-2 border-[#8C1226] transition font-bold" data-year="2022" aria-label="Abrir trajetória de 2022">2022</button>
+                    <button onclick="switchYear('2023')" class="year-tab text-stone-400 hover:text-[#8C1226] transition font-bold" data-year="2023" aria-label="Abrir trajetória de 2023">2023</button>
+                    <button onclick="switchYear('2024')" class="year-tab text-stone-400 hover:text-[#8C1226] transition font-bold" data-year="2024" aria-label="Abrir trajetória de 2024">2024</button>
+                    <button onclick="switchYear('2025')" class="year-tab text-stone-400 hover:text-[#8C1226] transition font-bold" data-year="2025" aria-label="Abrir trajetória de 2025">2025</button>
+                    <button onclick="switchYear('2026')" class="year-tab text-stone-400 hover:text-[#8C1226] transition font-bold" data-year="2026" aria-label="Abrir trajetória de 2026">2026</button>
+
+                </div>
+
+                <!-- Active Timeline Card -->
+                <div id="timelineCard" class="bg-[#E6E0D2] p-6 sm:p-8 rounded-lg border-2 border-stone-300 shadow-lg transition-all duration-300">
+                    <div class="flex flex-col sm:flex-row gap-6 items-center mb-6">
+                        <img id="timelineImg" src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=400&q=80" 
+                             alt="Ano 2022" 
+                             class="w-28 h-28 object-cover rounded border-2 border-[#8C1226] shadow grayscale">
+                        <div>
+                            <span id="timelineRole" class="text-xs uppercase tracking-wider text-[#8C1226] font-bold block mb-1">
+                                O COMEÇO & A VIRADA DE CHAVE
+                            </span>
+                            <h3 id="timelineTitle" class="font-oswald text-2xl sm:text-3xl font-bold uppercase text-stone-900 leading-tight">
+                                DESCOBRI COMO PENSAR COMO UM DIRETOR
+                            </h3>
+                        </div>
+                    </div>
+                    <p id="timelineBody" class="text-stone-800 text-sm sm:text-base leading-relaxed font-sans">
+                        Iniciei minha jornada prática atuando na edição de videoclipes. Foi nesse ano que entendi que editar não é apenas cortar takes, mas sim construir ritmo, intenção dramática e ritmo de cena. Decidi assumir a postura de quem pensa e planeja a obra como um todo.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+        <!-- FOLHA DE TRAJETÓRIA -->
+    <div id="timelineSheetBackdrop" class="timeline-sheet-backdrop fixed inset-0 z-[105] bg-stone-950/70 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" onclick="closeTimelineSheet(event)">
+        <article class="timeline-sheet timeline-sheet-rule relative w-full sm:max-w-2xl max-h-[92vh] overflow-y-auto bg-[#F3EFE6] text-stone-900 rounded-t-2xl sm:rounded-2xl border-t-8 sm:border-8 border-[#8C1226] shadow-2xl p-6 sm:p-10" onclick="event.stopPropagation()">
+            <button type="button" onclick="closeTimelineSheet()" class="absolute top-3 right-4 text-[#8C1226] hover:text-stone-950 transition text-2xl p-2" aria-label="Fechar folha de trajetória">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-start justify-between gap-5 mb-8 pr-8">
+                <div>
+                    <span class="text-xs uppercase tracking-[0.25em] text-[#8C1226] font-bold">• FOLHA DE TRAJETÓRIA</span>
+                    <h2 id="sheetTitle" class="font-oswald text-5xl sm:text-7xl font-bold leading-none text-[#8C1226] mt-2">2022</h2>
+                </div>
+                <span class="font-editorial italic text-2xl text-stone-500 mt-2">arquivo pessoal</span>
+            </div>
+            <div class="grid sm:grid-cols-[140px_1fr] gap-6 items-start">
+                <img id="sheetImg" src="" alt="" class="w-full h-36 object-cover rounded border-2 border-[#8C1226] grayscale shadow-md">
+                <div>
+                    <p id="sheetRole" class="text-xs uppercase tracking-widest text-[#8C1226] font-bold mb-2"></p>
+                    <h3 id="sheetHeading" class="font-oswald text-2xl sm:text-3xl uppercase font-bold leading-tight mb-4"></h3>
+                    <p id="sheetBody" class="font-sans text-base leading-relaxed text-stone-700"></p>
+                </div>
+            </div>
+            <div class="mt-9 pt-4 border-t border-[#8C1226]/30 flex items-center justify-between text-[10px] uppercase tracking-widest text-stone-500 font-bold">
+                <span>Oli Creator • Direção & Produção</span>
+                <span id="sheetYearStamp">2022</span>
+            </div>
+        </article>
+    </div>
+
+    <!-- MANIFESTO / DUOTONE SECTION -->
+
+    <section class="relative bg-[#8C1226] text-[#F3EFE6] py-20 px-4 overflow-hidden shadow-inner">
+        <div class="absolute inset-0 opacity-30 bg-cover bg-center filter grayscale contrast-200 duotone-overlay" 
+             style="background-image: url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1600&q=80');">
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto text-center space-y-6">
+            <i class="fa-solid fa-quote-left text-amber-300 text-4xl opacity-80"></i>
+            <blockquote class="font-editorial text-3xl sm:text-5xl md:text-6xl italic leading-tight text-amber-100 drop-shadow">
+                “Contar uma história é criar uma experiência que continua na mente do público mesmo depois de o ecrã se apagar.”
+            </blockquote>
+            <p class="font-oswald text-lg sm:text-xl uppercase tracking-widest text-amber-300 font-bold">
+                — CARLOS OLIVEIRA, MANIFESTO DE DIREÇÃO
+            </p>
+        </div>
+    </section>
+
+    <!-- PORTFOLIO & AUTHORIAL WORKS -->
+    <section id="portfolio" class="py-16 md:py-24 max-w-6xl mx-auto px-4">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-xs font-bold uppercase tracking-widest text-[#8C1226] block mb-1">
+                • FILMOGRAFIA & PROJETOS
+            </span>
+            <h2 class="font-oswald text-3xl sm:text-5xl font-bold uppercase text-stone-900">
+                OBRAS AUTORAIS & DIREÇÃO DE CONTEÚDO
+            </h2>
+            <p class="text-stone-600 text-sm mt-2">
+                Uma seleção de produções cinematográficas, curtas-metragens e minisséries criadas com rigor técnico e narrativa envolvente.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Featured Card 1: Minissérie Autoral -->
+            <div class="bg-[#8C1226] text-[#F3EFE6] rounded-lg overflow-hidden shadow-2xl flex flex-col justify-between border-2 border-amber-300/40 group gallery-card">
+                <div class="relative overflow-hidden h-56">
+                    <img src="./img/SF 3.png" 
+                         alt="Minissérie Autoral" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition duration-500 grayscale contrast-125">
+                    <span class="absolute top-3 left-3 bg-amber-300 text-[#8C1226] text-[10px] font-bold uppercase px-2 py-1 rounded tracking-wider">
+                        ★ MINISSÉRIE AUTORAL
+                    </span>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-oswald text-2xl uppercase font-bold text-amber-200 mb-2">
+                            PROJETO AUTORAL: A NARRATIVA
+                        </h3>
+                        <p class="text-xs text-stone-200 leading-relaxed font-sans mb-4">
+                            Minissérie totalmente escrita, produzida e dirigida por Carlos Oliveira. Projeto de ficção dramática explorando ritmo cinematográfico e identidade visual única.
+                        </p>
+                    </div>
+                    <button onclick="openProjectModal('Minissérie Autoral', 'Série de ficção com múltiplos episódios focados em profundidade dramática, direção de atores não-profissionais e composição de plano rigorosa em tom de suspense.', 'Diretor de Cena, Roteirista & Editor', '2025')" 
+                            class="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center gap-2 hover:text-white transition">
+                        Ver Detalhes do Projeto <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card 2: Curtas-Metragens -->
+            <div class="bg-[#121212] text-[#F3EFE6] rounded-lg overflow-hidden shadow-2xl flex flex-col justify-between border-2 border-stone-800 group gallery-card">
+                <div class="relative overflow-hidden h-56">
+                    <img src="./img/my.jpeg" 
+                         alt="Curtas Metragens" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition duration-500 grayscale">
+                    <span class="absolute top-3 left-3 bg-red-900 text-amber-100 text-[10px] font-bold uppercase px-2 py-1 rounded tracking-wider">
+                        TRABALHOS FEITOS
+                    </span>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-oswald text-2xl uppercase font-bold text-stone-100 mb-2">
+                            O VERDADEIRO STORYMAKER
+                        </h3>
+                        <p class="text-xs text-stone-300 leading-relaxed font-sans mb-4">
+                            Mais do que captar imagens, sou um Storymaker: transformo momentos, emoções e experiências em histórias visuais com identidade.
+                        </p>
+                    </div>
+                    <button onclick="openProjectModal('EXPERIÊNCIA DE TRABALHO', 'O verdadeiro Storymaker não está apenas preocupado em captar imagens bonitas. Ele sabe observar, antecipar momentos e transformar experiências reais em histórias que comunicam e emocionam.', 'storymaker', '2025-2026')" 
+                            class="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center gap-2 hover:text-white transition">
+                        Ver Detalhes do Projeto <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card 3: Campanha Ondaka Marketing -->
+            <div class="bg-[#8C1226] text-[#F3EFE6] rounded-lg overflow-hidden shadow-2xl flex flex-col justify-between border-2 border-amber-300/40 group gallery-card">
+                <div class="relative overflow-hidden h-56">
+                    <img src="./img/carliteira033.jpg.jpeg" 
+                         alt="Ondaka Marketing" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition duration-500 grayscale contrast-125">
+                    <span class="absolute top-3 left-3 bg-amber-300 text-[#8C1226] text-[10px] font-bold uppercase px-2 py-1 rounded tracking-wider">
+                        AGÊNCIA ONDAKA
+                    </span>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-oswald text-2xl uppercase font-bold text-amber-200 mb-2">
+                            DIREÇÃO CRIATIVA ONDAKA
+                        </h3>
+                        <p class="text-xs text-stone-200 leading-relaxed font-sans mb-4">
+                            Liderança de equipe criativa para campanhas de grande porte, transformando briefings complexos em anúncios e filmes institucionais de alto engajamento.
+                        </p>
+                    </div>
+                    <button onclick="openProjectModal('Direção Criativa Ondaka', 'Atuação na Ondaka, uma das maiores empresas de marketing. Responsável por alinhar visão artística, estratégia comercial e roteiros visuais para clientes corporativos.', 'Diretor Criativo', '2025')" 
+                            class="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center gap-2 hover:text-white transition">
+                        Ver Detalhes do Projeto <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- EVENTS & ALL SERVICES SECTION -->
+    <section id="events" class="py-16 bg-[#E6E0D2] border-y border-stone-300">
+        <div class="max-w-6xl mx-auto px-4">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-[#8C1226] block mb-1">
+                        • CATÁLOGO DE SERVIÇOS & HISTÓRICO DE COBERTURAS
+                    </span>
+                    <h2 class="font-oswald text-3xl sm:text-5xl font-bold uppercase text-stone-900 leading-tight">
+                        SERVIÇOS PRESTADOS & EVENTOS
+                    </h2>
+                </div>
+                <p class="text-xs uppercase font-bold text-stone-600 tracking-wider mt-2 md:mt-0">
+                    Soluções sob medida: das redes sociais ao grande cinema
+                </p>
+            </div>
+
+            <!-- Filter Buttons for Services & Events -->
+            <div class="flex flex-wrap gap-2 mb-6" id="serviceFilters">
+                <button onclick="filterEvents('all', this)" class="event-filter-btn bg-[#8C1226] text-white px-4 py-2 rounded text-xs font-bold uppercase tracking-wider transition">Todos os Serviços</button>
+                <button onclick="filterEvents('palestra', this)" class="event-filter-btn bg-stone-300 text-stone-800 hover:bg-[#8C1226] hover:text-white px-4 py-2 rounded text-xs font-bold uppercase tracking-wider transition">Palestras & Workshops</button>
+                <button onclick="filterEvents('social', this)" class="event-filter-btn bg-stone-300 text-stone-800 hover:bg-[#8C1226] hover:text-white px-4 py-2 rounded text-xs font-bold uppercase tracking-wider transition">Aniversários & Família</button>
+                <button onclick="filterEvents('coquetel', this)" class="event-filter-btn bg-stone-300 text-stone-800 hover:bg-[#8C1226] hover:text-white px-4 py-2 rounded text-xs font-bold uppercase tracking-wider transition">Inaugurações & Coquetéis</button>
+                <button onclick="filterEvents('storymaker', this)" class="event-filter-btn bg-stone-300 text-stone-800 hover:bg-[#8C1226] hover:text-white px-4 py-2 rounded text-xs font-bold uppercase tracking-wider transition">Storymaker (Ao Vivo)</button>
+                <button onclick="filterEvents('pos', this)" class="event-filter-btn bg-stone-300 text-stone-800 hover:bg-[#8C1226] hover:text-white px-4 py-2 rounded text-xs font-bold uppercase tracking-wider transition">Pós-Produção & Color</button>
+            </div>
+
+            <!-- Events & Services Table -->
+            <div class="bg-[#F3EFE6] rounded-lg border border-stone-300 shadow overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-[#8C1226] text-amber-100 font-oswald text-sm uppercase tracking-wider border-b border-red-950">
+                            <th class="p-4 whitespace-nowrap">Categoria / Serviço</th>
+                            <th class="p-4 min-w-[250px]">Descrição do Serviço / Evento</th>
+                            <th class="p-4">Entidade / Público</th>
+                            <th class="p-4 min-w-[250px]">Atuação de Carlos Oliveira</th>
+                            <th class="p-4 text-right">Modalidade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eventsTableBody" class="divide-y divide-stone-300 text-xs text-stone-800 font-sans">
+                        
+                        <!-- Requested Service 1: Palestras e Workshops -->
+                        <tr class="event-row hover:bg-stone-200 transition cursor-pointer" data-cat="palestra" tabindex="0" role="button" onclick="openServiceDetails('palestra')" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceDetails('palestra')">
+                            <td class="p-4 font-bold font-oswald text-sm text-[#8C1226]">PALESTRAS & WORKSHOPS</td>
+                            <td class="p-4 font-bold text-stone-900">Cobertura Audiovisual, Registro de Keynotes & Highlights de Impacto</td>
+                            <td class="p-4">Palestrantes, Empresas & Educadores</td>
+                            <td class="p-4">Captura Multi-ângulo, Áudio Cristalino & Vídeo Resumo Ágil</td>
+                            <td class="p-4 text-right"><span class="bg-emerald-800 text-white px-2 py-1 rounded text-[10px] font-bold uppercase whitespace-nowrap">Disponível</span></td>
+                        </tr>
+
+
+                        <!-- Requested Service 3: Inaugurações e Coquetéis Compactos -->
+                        <tr class="event-row hover:bg-stone-200 transition cursor-pointer" data-cat="coquetel" tabindex="0" role="button" onclick="openServiceDetails('coquetel')" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceDetails('coquetel')">
+                            <td class="p-4 font-bold font-oswald text-sm text-[#8C1226]">INAUGURAÇÕES & COQUETÉIS COMPACTOS</td>
+                            <td class="p-4 font-bold text-stone-900">Cobertura Elegante de Vernissages, Lojas, Marcas e Galas</td>
+                            <td class="p-4">Empresas, Marcas de Luxo & Galerias</td>
+                            <td class="p-4">Luz Dramática, Tomadas de Detalhe & Teaser Institucional Elegante</td>
+                            <td class="p-4 text-right"><span class="bg-blue-900 text-white px-2 py-1 rounded text-[10px] font-bold uppercase whitespace-nowrap">Entrega Rápida</span></td>
+                        </tr>
+
+                        <!-- Requested Service 4: Produção em tempo real (Storymaker) -->
+                        <tr class="event-row hover:bg-stone-200 transition cursor-pointer" data-cat="storymaker" tabindex="0" role="button" onclick="openServiceDetails('storymaker')" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceDetails('storymaker')">
+                            <td class="p-4 font-bold font-oswald text-sm text-[#8C1226]">PRODUÇÃO EM TEMPO REAL (STORYMAKER)</td>
+                            <td class="p-4 font-bold text-stone-900">Criação & Edição ao Vivo de Reels / Stories Durante o Próprio Evento</td>
+                            <td class="p-4">Criadores, Marcas, Festas & Influenciadores</td>
+                            <td class="p-4">Captação Vertical 9:16, Edição no Celular/Tablet & Postagem Imediata</td>
+                            <td class="p-4 text-right"><span class="bg-red-800 text-white px-2 py-1 rounded text-[10px] font-bold uppercase whitespace-nowrap">Live Delivery</span></td>
+                        </tr>
+
+                        <!-- Requested Service 5: Editor de Vídeo -->
+                        <tr class="event-row hover:bg-stone-200 transition cursor-pointer" data-cat="pos" tabindex="0" role="button" onclick="openServiceDetails('editor')" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceDetails('editor')">
+                            <td class="p-4 font-bold font-oswald text-sm text-[#8C1226]">EDITOR DE VÍDEO (MONTAGEM)</td>
+                            <td class="p-4 font-bold text-stone-900">Montagem Ritmada, Storytelling, Edição Comercial, Vlogs e Cinema</td>
+                            <td class="p-4">Produtoras, Agências & Youtubers</td>
+                            <td class="p-4">Corte Seco, Ritmo Narrativo, Design de Som & Edição Não-Linear</td>
+                            <td class="p-4 text-right"><span class="bg-stone-800 text-white px-2 py-1 rounded text-[10px] font-bold uppercase whitespace-nowrap">Remoto</span></td>
+                        </tr>
+
+                                                <!-- Requested Service 6: Color Grading / Colorista -->
+                        <tr class="event-row hover:bg-stone-200 transition cursor-pointer" data-cat="pos" tabindex="0" role="button" onclick="openServiceDetails('color')" onkeydown="if(event.key==='Enter'||event.key===' ') openServiceDetails('color')">
+
+                            <td class="p-4 font-bold font-oswald text-sm text-[#8C1226]">COLOR GRADING / COLORISTA</td>
+                            <td class="p-4 font-bold text-stone-900">Tratamento de Cor, Equalização, Film Emulation e Atmosfera</td>
+                            <td class="p-4">Diretores de Cena, Filmes Curtas & Comerciais</td>
+                            <td class="p-4">Correção de Cor Primária/Secundária, Criação de Looks (LUTs)</td>
+                            <td class="p-4 text-right"><span class="bg-stone-800 text-white px-2 py-1 rounded text-[10px] font-bold uppercase whitespace-nowrap">Remoto</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+        <!-- SERVICE DETAIL SHEET -->
+    <div id="serviceSheetBackdrop" class="service-sheet-backdrop fixed inset-0 z-[108] bg-stone-950/70 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="serviceSheetTitle" onclick="closeServiceDetails(event)">
+        <article class="service-sheet w-full sm:max-w-2xl max-h-[92vh] overflow-y-auto bg-[#F3EFE6] rounded-t-2xl sm:rounded-2xl border-t-8 sm:border-8 border-[#8C1226] shadow-2xl p-6 sm:p-10" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-start gap-5 mb-7"><div><span class="text-xs uppercase tracking-[.25em] text-[#8C1226] font-bold">• O QUE ESTÁ INCLUÍDO</span><h2 id="serviceSheetTitle" class="font-oswald text-3xl sm:text-5xl uppercase font-bold text-stone-900 mt-2"></h2></div><button onclick="closeServiceDetails()" class="text-[#8C1226] hover:text-stone-950 text-2xl p-2" aria-label="Fechar detalhes do serviço"><i class="fa-solid fa-xmark"></i></button></div>
+            <p id="serviceSheetIntro" class="text-stone-700 font-sans leading-relaxed mb-7"></p><div id="serviceSheetItems" class="grid sm:grid-cols-3 gap-3"></div>
+            <div class="mt-8 pt-5 border-t border-[#8C1226]/30 flex flex-col sm:flex-row justify-between gap-3 text-xs uppercase tracking-widest font-bold text-stone-600"><span id="serviceSheetDelivery"></span><span>Orçamento sob medida</span></div>
+        </article>
+    </div>
+
+    <!-- GALLERY SECTION -->
+
+    <section id="gallery" class="py-16 max-w-6xl mx-auto px-4">
+        <div class="text-center mb-10">
+            <span class="text-xs font-bold uppercase tracking-widest text-[#8C1226] block mb-1">
+                • REGISTROS NO SET
+            </span>
+            <h2 class="font-oswald text-3xl sm:text-5xl font-bold uppercase text-stone-900">
+                GALERIA (DESTAQUES)
+            </h2>
+            <p class="text-stone-600 text-sm mt-2">Um vislumbre dos bastidores e do olhar fotográfico.</p>
+        </div>
+
+        <!-- CSS Grid Masonry-style simulation -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="col-span-2 row-span-2 overflow-hidden rounded stamp-border gallery-card cursor-pointer" onclick="openFullGallery(0)">
+                <img src="./img/01.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500" alt="Camera Set">
+            </div>
+            <div class="overflow-hidden rounded border-2 border-[#8C1226] gallery-card cursor-pointer" onclick="openFullGallery(1)">
+                <img src="./img/25.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500" alt="Lens Detail">
+            </div>
+            <div class="overflow-hidden rounded border-2 border-stone-400 gallery-card cursor-pointer" onclick="openFullGallery(2)">
+                <img src="./img/5.png" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500" alt="Editing Bay">
+            </div>
+            <div class="overflow-hidden rounded border-2 border-stone-400 gallery-card cursor-pointer" onclick="openFullGallery(3)">
+                <img src="./img/4.png" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500" alt="Cinematography">
+            </div>
+            <div class="overflow-hidden rounded border-2 border-[#8C1226] gallery-card cursor-pointer" onclick="openFullGallery(4)">
+                <img src="./img/2026.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500" alt="Film Reel">
+            </div>
+        </div>
+        <div class="text-center mt-8">
+            <button onclick="openFullGallery(0)" class="bg-transparent border-2 border-[#8C1226] text-[#8C1226] px-6 py-2 font-oswald font-bold text-sm uppercase tracking-wider hover:bg-[#8C1226] hover:text-white transition cursor-pointer">
+                Ver Galeria Completa 
+            </button>
+        </div>
+    </section>
+
+    <!-- RESULTS SECTION -->
+    <section id="results" class="bg-[#121212] text-[#F3EFE6] py-20 border-y-4 border-[#8C1226]">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <span class="text-xs font-bold uppercase tracking-widest text-amber-500 block mb-3">
+                • IMPACTO & ALCANCE
+            </span>
+            <h3 class="font-oswald text-3xl sm:text-4xl uppercase font-bold tracking-widest mb-4">
+                MARCAS, PARCEIROS & GRANDES EVENTOS
+            </h3>
+            <p class="max-w-2xl mx-auto text-stone-400 text-sm md:text-base leading-relaxed mb-12">
+                Empresas, instituições e marcas de destaque que confiaram na visão de direção cinematográfica e produção audiovisual.
+            </p>
+
+            <!-- Grid de Logotipos em PNG (Estilo Referência) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-6 items-center justify-center">
+                
+                <!-- Logo 1: Adobe -->
+                <div class="bg-stone-900/80 border border-stone-800 p-4 rounded-lg flex flex-col items-center justify-center hover:border-[#8C1226] transition group h-24">
+                    <img src="./img/filda_2023_bk.png" alt="Adobe" class="max-h-10 w-auto object-contain brightness-0 invert opacity-70 group-hover:opacity-100 transition duration-300">
+                </div>
+
+                <!-- Logo 2: Microsoft -->
+                <div class="bg-stone-900/80 border border-stone-800 p-4 rounded-lg flex flex-col items-center justify-center hover:border-[#8C1226] transition group h-24">
+                    <img src="./img/african.png" alt="Microsoft" class="max-h-10 w-auto object-contain brightness-0 invert opacity-70 group-hover:opacity-100 transition duration-300">
+                </div>
+
+                <!-- Logo 3: TCL -->
+                <div class="bg-stone-900/80 border border-stone-800 p-4 rounded-lg flex flex-col items-center justify-center hover:border-[#8C1226] transition group h-24">
+                    <img src="./img/mpr.png" alt="TCL" class="max-h-10 w-auto object-contain brightness-0 invert opacity-70 group-hover:opacity-100 transition duration-300">
+                </div>
+
+                <!-- Logo 4: IMAX -->
+                <div class="bg-stone-900/80 border border-stone-800 p-4 rounded-lg flex flex-col items-center justify-center hover:border-[#8C1226] transition group h-24">
+                    <img src="./img/Component 2.png" alt="IMAX" class="max-h-10 w-auto object-contain brightness-0 invert opacity-70 group-hover:opacity-100 transition duration-300">
+                </div>
+
+            </div>
+
+            <div class="mt-12 flex justify-center gap-6">
+                <a href="#contact" class="text-xs uppercase tracking-widest font-bold text-amber-400 hover:text-amber-300 transition flex items-center gap-2">
+                    <span>Deseja sua marca aqui? Fale comigo</span> <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-20 bg-[#8C1226] text-[#F3EFE6]">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="font-editorial text-5xl sm:text-6xl italic mb-6">Vamos criar juntos?</h2>
+            <p class="font-oswald uppercase tracking-widest text-amber-200 mb-10 font-bold">
+                Entre em contato para orçamentos, direção de cena ou coberturas exclusivas.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#" class="bg-[#F3EFE6] text-[#8C1226] px-8 py-4 font-oswald font-bold text-lg uppercase tracking-wider hover:bg-amber-200 transition shadow-lg flex items-center justify-center gap-3 rounded">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i> Falar no WhatsApp
+                </a>
+                <a href="#" class="bg-transparent border-2 border-[#F3EFE6] text-[#F3EFE6] px-8 py-4 font-oswald font-bold text-lg uppercase tracking-wider hover:bg-white/10 transition rounded flex items-center justify-center gap-3">
+                    <i class="fa-regular fa-envelope"></i> Enviar Email
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-stone-950 text-stone-500 py-8 text-center text-xs uppercase tracking-widest font-bold">
+        <p>© 2026 Carlos Oliveira / Oli Creator. Todos os direitos reservados.</p>
+        <p class="mt-2 text-stone-700">Direção • Cinematografia • Edição</p>
+    </footer>
+
+    <!-- PROJECT MODAL (Hidden by default) -->
+    <div id="projectModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-[#F3EFE6] max-w-2xl w-full rounded-lg shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300 border-4 border-[#8C1226]" id="modalContent">
+            <div class="bg-[#8C1226] px-6 py-4 flex justify-between items-center">
+                <h3 id="modalTitle" class="font-oswald text-xl text-amber-200 font-bold uppercase tracking-wider">Título</h3>
+                <button onclick="closeProjectModal()" class="text-amber-100 hover:text-white transition text-xl cursor-pointer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <span id="modalRole" class="bg-stone-800 text-amber-100 px-2 py-1 text-[10px] uppercase font-bold tracking-widest rounded">Função</span>
+                    <span id="modalYear" class="text-[#8C1226] font-bold text-sm font-oswald">Ano</span>
+                </div>
+                <p id="modalDesc" class="text-stone-700 text-sm leading-relaxed font-sans mb-6">
+                    Descrição do projeto...
+                </p>
+                <button onclick="closeProjectModal()" class="w-full bg-stone-200 text-stone-800 py-3 font-oswald uppercase tracking-wider font-bold hover:bg-stone-300 transition rounded cursor-pointer">
+                    Fechar Detalhes
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FULL GALLERY MODAL (25 Fotos) -->
+    <div id="fullGalleryModal" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[110] hidden flex flex-col opacity-0 transition-opacity duration-300">
+        <!-- Top Bar -->
+        <div class="bg-[#8C1226] text-[#F3EFE6] px-6 py-4 flex justify-between items-center border-b-2 border-red-950">
+            <div>
+                                <span id="galleryArchiveLabel" class="text-xs uppercase tracking-widest text-amber-200 font-bold block">• ARQUIVO VISUAL COMPLETO</span>
+                <h3 id="galleryArchiveTitle" class="font-oswald text-2xl uppercase font-bold tracking-wider">Galeria de Bastidores </h3>
+
+            </div>
+            <button onclick="closeFullGallery()" class="text-amber-100 hover:text-white transition text-3xl p-2 cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Scrollable Grid of 25 Photos -->
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 max-w-7xl mx-auto w-full">
+                        <p id="galleryInstruction" class="text-stone-400 text-xs uppercase tracking-widest text-center mb-6">Clique em qualquer fotografia para visualizar em destaque</p>
+
+            <div id="galleryGrid25" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <!-- Injetado via Javascript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX SINGLE PHOTO MODAL -->
+    <div id="lightboxModal" class="fixed inset-0 bg-black/95 z-[120] hidden flex items-center justify-center p-4" onclick="closeLightbox()">
+                        <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center" onclick="event.stopPropagation()">
+            <button id="lightboxCloseButton" onclick="closeLightbox()" class="absolute -top-12 right-0 text-white text-2xl hover:text-amber-300 transition cursor-pointer">
+                <i class="fa-solid fa-xmark"></i> Fechar
+
+            </button>
+            <img id="lightboxImg" src="" alt="Foto Ampliada" class="max-h-[75vh] max-w-full object-contain rounded border-2 border-[#8C1226] shadow-2xl">
+            <p id="lightboxCaption" class="text-amber-200 font-oswald tracking-widest text-lg uppercase mt-4 text-center">Legenda da Foto</p>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        try {
+                        // --- PT / EN language toggle ---
+            let currentLanguage = 'pt';
+            const languageCopy = {
+                pt: { about: 'Sobre', journey: 'Trajetória (2022-2026)', portfolio: 'Obras & Séries', services: 'Serviços & Eventos', gallery: 'Galeria', results: 'Resultados', hire: 'Contratar Direção' },
+                en: { about: 'About', journey: 'Journey (2022-2026)', portfolio: 'Works & Series', services: 'Services & Events', gallery: 'Gallery', results: 'Results', hire: 'Hire the Director' }
+            };
+            const languageToggle = document.getElementById('languageToggle');
+            const fullPageTranslations = {
+                '• DIREÇÃO CINEMATOGRÁFICA': '• CINEMATIC DIRECTION', '• STORYMAKER & COBERTURAS': '• STORYMAKER & COVERAGE', '• EDITOR & COLORISTA •': '• EDITOR & COLORIST •',
+                'PENSO COMO DIRETOR': 'I THINK LIKE A DIRECTOR', 'EXECUTO COMO CRIADOR': 'I EXECUTE LIKE A CREATOR', 'ENTREGO RESULTADOS REAIS': 'I DELIVER REAL RESULTS',
+                'DIRETOR DE CENA & PRODUÇÃO AUDIOVISUAL': 'SCENE DIRECTOR & AUDIOVISUAL PRODUCTION', 'EM SET': 'ON SET', '+5 ANOS': '+5 YEARS', 'De Experiência Técnica': 'Technical Experience', '+30 PROJETOS': '+30 PROJECTS', 'Eventos & Campanhas': 'Events & Campaigns', '+100K VIEWS': '+100K VIEWS', 'Em um Único Vídeo': 'On a Single Video', '25 FOTOS': '25 PHOTOS', 'Galeria Completa': 'Complete Gallery',
+                '• FILOSOFIA DE DIREÇÃO': '• DIRECTING PHILOSOPHY', 'APAIXONADO PELO CINEMA, FOCADO EM RESULTADOS': 'PASSIONATE ABOUT CINEMA, FOCUSED ON RESULTS',
+                '• LINHA DO TEMPO & EVOLUÇÃO': '• TIMELINE & EVOLUTION', 'Navegue pelos marcos que definiram a transformação de um editor de videoclipes em um Diretor Criativo e Prestador de Serviços Multimídia completo.': 'Explore the milestones that transformed a music-video editor into a complete Creative Director and Multimedia Service Provider.',
+                '• FOLHA DE TRAJETÓRIA': '• JOURNEY SHEET', 'arquivo pessoal': 'personal archive', 'O COMEÇO & A VIRADA DE CHAVE': 'THE BEGINNING & THE TURNING POINT', 'DESCOBRI COMO PENSAR COMO UM DIRETOR': 'I DISCOVERED HOW TO THINK LIKE A DIRECTOR',
+                '• FILMOGRAFIA & PROJETOS': '• FILMOGRAPHY & PROJECTS', 'OBRAS AUTORAIS & DIREÇÃO DE CONTEÚDO': 'AUTHORIAL WORKS & CONTENT DIRECTION', 'Uma seleção de produções cinematográficas, curtas-metragens e minisséries criadas com rigor técnico e narrativa envolvente.': 'A selection of cinematic productions, short films and miniseries created with technical rigour and compelling storytelling.',
+                '★ MINISSÉRIE AUTORAL': '★ AUTHORIAL MINISERIES', 'PROJETO AUTORAL: A NARRATIVA': 'AUTHORIAL PROJECT: THE NARRATIVE', 'CINEMA INDEPENDENTE': 'INDEPENDENT CINEMA', 'COLEÇÃO DE CURTAS-METRAGENS': 'SHORT FILM COLLECTION', 'AGÊNCIA ONDAKA': 'ONDAKA AGENCY', 'DIREÇÃO CRIATIVA ONDAKA': 'ONDAKA CREATIVE DIRECTION', 'Ver Detalhes do Projeto': 'View Project Details',
+                '• CATÁLOGO DE SERVIÇOS & HISTÓRICO DE COBERTURAS': '• SERVICE CATALOGUE & COVERAGE HISTORY', 'SERVIÇOS PRESTADOS & EVENTOS': 'SERVICES PROVIDED & EVENTS', 'Soluções sob medida: das redes sociais ao grande cinema': 'Tailored solutions: from social media to the big screen', 'Todos os Serviços': 'All Services', 'Palestras & Workshops': 'Talks & Workshops', 'Aniversários & Família': 'Birthdays & Family', 'Inaugurações & Coquetéis': 'Openings & Cocktails', 'Storymaker (Ao Vivo)': 'Storymaker (Live)', 'Pós-Produção & Color': 'Post-Production & Colour',
+                'Categoria / Serviço': 'Category / Service', 'Descrição do Serviço / Evento': 'Service / Event Description', 'Entidade / Público': 'Organisation / Audience', 'Atuação de Carlos Oliveira': 'Carlos Oliveira\'s Role', 'Modalidade': 'Format', 'Disponível': 'Available', 'Exclusivo': 'Exclusive', 'Entrega Rápida': 'Fast Delivery', 'Live Delivery': 'Live Delivery', 'Remoto': 'Remote',
+                '• REGISTROS NO SET': '• ON-SET RECORDS', 'GALERIA (DESTAQUES)': 'GALLERY (HIGHLIGHTS)', 'Ver Galeria Completa (25 Fotos)': 'View Complete Gallery (25 Photos)', 'Clique em qualquer fotografia para visualizar em destaque': 'Click any photograph to view it enlarged', '• O QUE ESTÁ INCLUÍDO': '• WHAT IS INCLUDED', 'Orçamento sob medida': 'Tailored quote'
+            };
+            const localizedTimeline = {
+                '2022': { role: 'THE BEGINNING & THE TURNING POINT', title: 'I DISCOVERED HOW TO THINK LIKE A DIRECTOR', body: 'I began my practical journey editing music videos. That year I understood that editing is not only about cutting shots, but about building rhythm, dramatic intention and scene pace. I chose to think and plan the work as a whole.' },
+                '2023': { role: 'INDEPENDENT CINEMA', title: 'THE CREATION OF SHORT FILMS', body: 'I immersed myself in independent cinema. I directed and shot short films with complex narratives, dramatic lighting and stronger communication with the cast on set.' },
+                '2024': { role: 'CORPORATE MARKET & EVENTS', title: 'EXPANSION INTO MAJOR COVERAGE', body: 'I expanded into high-end audiovisual coverage: talks, cocktail openings and luxury events. I refined the Storymaker technique, delivering edited material in real time.' },
+                '2025': { role: 'AGENCY & LARGER PROJECTS', title: 'CREATIVE DIRECTION AT ONDAKA', body: 'I worked as Creative Director and Filmmaker on advertising campaigns, collaborating with agencies such as Ondaka and developing institutional films for nationally recognised brands.' },
+                '2026': { role: 'AUDIOVISUAL MATURITY', title: 'A COMPLETE SCENE DIRECTOR', body: 'Today I master the complete workflow: pre-production, set lighting and camera, and post-production with editing and colour grading. I am consolidating a distinctive visual signature.' }
+            };
+            const localizedServices = {
+                palestra: { title: 'Talks & Workshops', intro: 'Complete coverage to turn every presentation into professional content that is easy to share.', video: '1 highlight video of 2–3 min', photos: 'Up to 20 edited photographs', delivery: 'Timeline: 3–5 business days' },
+                social: { title: 'Birthdays & Family Gatherings', intro: 'An emotive and spontaneous record of the moments that make the event unforgettable.', video: '1 celebratory video of 3–5 min', photos: 'Up to 40 edited photographs', delivery: 'Timeline: 5–7 business days' },
+                coquetel: { title: 'Openings & Cocktails', intro: 'Elegant images of people, details, atmosphere and brand, with the right pace for promotion.', video: '1 institutional teaser of 1–2 min', photos: 'Up to 25 edited photographs', delivery: 'Timeline: 48–72 hours' },
+                storymaker: { title: 'Live Storymaker', intro: 'Vertical content created during the event so it can be published while the experience is happening.', video: '3–5 vertical videos of 15–45 sec', photos: '5–10 quick photographs', delivery: 'Delivery: during the event' },
+                editor: { title: 'Video Editing', intro: 'Narrative editing from your files, with rhythm, organisation and a professional finish.', video: '1 final video up to 10 min', photos: 'Selection of 5 high-resolution frames', delivery: 'Timeline: 3–7 business days' },
+                color: { title: 'Colour Grading / Colorist', intro: 'Visual treatment to balance, correct and create a consistent cinematic atmosphere.', video: '1 final video up to 15 min', photos: '5 treated reference frames', delivery: 'Timeline: 2–4 business days' }
+            };
+            const translateFullPage = () => {
+                const map = currentLanguage === 'en' ? fullPageTranslations : Object.fromEntries(Object.entries(fullPageTranslations).map(([pt, en]) => [en, pt]));
+                const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+                const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+                nodes.forEach(node => { const value = node.nodeValue.trim(); if (map[value]) node.nodeValue = node.nodeValue.replace(value, map[value]); });
+                document.querySelectorAll('[data-i18n]').forEach(element => { const key = element.dataset.i18n; element.textContent = languageCopy[currentLanguage][key]; });
+                if (currentLanguage === 'en') { document.title = 'Oli Creator — Film Director, Creative & Audiovisual Services'; } else { document.title = 'Oli Creator — Diretor de Cinema, Criativo & Serviços Audiovisuais'; }
+            };
+            window.toggleLanguage = function() {
+                currentLanguage = currentLanguage === 'pt' ? 'en' : 'pt';
+                document.documentElement.lang = currentLanguage === 'pt' ? 'pt-BR' : 'en';
+                translateFullPage();
+                languageToggle.innerText = currentLanguage === 'pt' ? 'PT / EN' : 'EN / PT';
+                languageToggle.setAttribute('aria-label', currentLanguage === 'pt' ? 'Mudar idioma para inglês' : 'Switch language to Portuguese');
+            };
+            languageToggle.addEventListener('click', toggleLanguage);
+
+            // --- Mobile Menu Toggle ---
+
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu on link click
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // --- Timeline Logic ---
+            const timelineData = {
+                '2022': {
+                    img: './img/2022.jpg',
+                    role: 'O COMEÇO & A VIRADA DE CHAVE',
+                    title: 'DESCOBRI COMO PENSAR COMO UM DIRETOR',
+                    body: 'Iniciei minha jornada prática atuando na edição de videoclipes. Foi nesse ano que entendi que editar não é apenas cortar takes, mas sim construir ritmo, intenção dramática e ritmo de cena. Decidi assumir a postura de quem pensa e planeja a obra como um todo.'
+                },
+                '2023': {
+                    img: './img/2023.jpg',
+                    role: 'HABILIDADE DE EDITOR',
+                    title: 'EVOLUÇÃO COMO EDITOR',
+                    body: 'Em 2023, comecei a explorar e a desenvolver as minhas capacidades como editor de vídeo. Foi um ano dedicado sobretudo à edição de casamentos, conteúdos para redes sociais e vídeos para YouTubers. Essa fase permitiu-me aperfeiçoar a minha técnica, compreender diferentes estilos de narrativa e ganhar maior domínio sobre ritmo, cortes, transições, música e storytelling audiovisual. foi essencialmente, o ano em que consolidei a edição como uma das principais bases do meu percurso no audiovisual.'
+                },
+                '2024': {
+                    img: './img/2024.jpg',
+                    role: 'O INÍCIO DA EXPERIÊNCIA EM CAMPO ',
+                    title: 'EXPANSÃO PARA GRANDES COBERTURAS',
+                    body: 'Em 2024, decidi sair da zona de conforto e colocar os meus conhecimentos em prática. Comecei a acompanhar um amigo na cobertura de eventos e casamentos, trabalhando com fotografia e vídeo. Essa experiência permitiu-me desenvolver novas competências, aprender mais sobre filmagem e compreender melhor todo o processo de produção audiovisual no terreno, desde a captação até à entrega do conteúdo final. foi o ano em que deixei de estar apenas atrás do computador e comecei a viver verdadeiramente a dinâmica dos eventos e das filmagens.'
+                },
+                '2025': {
+                    img: './img/2025.jpg',
+                    role: 'O ANO DA CONSOLIDAÇÃO PROFISSIONAL',
+                    title: 'DIREÇÃO CRIATIVA NA ONDAKA',
+                    body: 'Em 2025, dei um passo decisivo na minha carreira ao integrar a Ondaka, onde tive a oportunidade de participar na cobertura dos Jogos Africanos em Angola — um dos maiores desafios e marcos do meu percurso audiovisual. Nesse mesmo período, comecei a acompanhar e registar as apresentações e actividades de Sua Excelência, o Ministro da Juventude e Desportos, além de produzir conteúdos para o Belas Business Park e para a Federação Angolana de Natação. Foi um ano de grande aprendizagem, responsabilidade e crescimento profissional. Tive contacto com diferentes realidades de produção, trabalhei em eventos de grande dimensão e aprimorei as minhas capacidades de captação, edição e comunicação audiovisual. sem dúvida, o melhor ano da minha carreira até então: o ano em que os desafios se transformaram em oportunidades e a minha experiência ganhou uma nova dimensão.'
+                },
+                '2026': {
+                    img: './img/2026.jpg',
+                    role: 'MATURIDADE AUDIOVISUAL',
+                    title: 'DIRETOR DE CENA COMPLETO',
+                    body: 'Hoje, domino o fluxo completo: Pré-produção, Set (Luz e Câmera) e Pós-produção (Edição e Color Grading). continuei a trabalhar na Ondaka e iniciei uma colaboração com a AUSC Region 5, assumindo a edição de reuniões, entrevistas e eventos. Também participei na FILDA 2026, através da MPROJECT, prestando serviços à Ferpinta. Ao longo do ano, acompanhei ainda uma competição de Jiu-Jitsu como filmmaker de um atleta, registando a sua preparação, participação e desempenho. Esta experiência permitiu-me explorar uma área diferente da produção audiovisual, marcada pela disciplina, intensidade e emoção. Também fiz parte da ficha técnica de dois videoclipes de artistas em ascensão, contribuindo para a captação e produção dos projectos. Paralelamente, iniciei a produção da minha primeira minissérie, que contará com a participação do actor brasileiro Jamal The Woo, conhecido pela participação em projectos de destaque no Brasil, e do consagrado actor angolano Fernando Mailoge, vencedor de vários prémios de Melhor Actor. 2026 representa uma nova fase da minha carreira: um ano de crescimento, de grandes colaborações e da concretização do sonho de criar e lançar a minha primeira minissérie.'
+                }
+            };
+
+            window.switchYear = function(year) {
+                // Update active tab styling
+                document.querySelectorAll('.year-tab').forEach(btn => {
+                    if(btn.dataset.year === year) {
+                        btn.classList.remove('text-stone-400');
+                        btn.classList.add('text-[#8C1226]', 'border-b-2', 'border-[#8C1226]');
+                    } else {
+                        btn.classList.add('text-stone-400');
+                        btn.classList.remove('text-[#8C1226]', 'border-b-2', 'border-[#8C1226]');
+                    }
+                });
+
+                // Animate background and update content
+                const card = document.getElementById('timelineCard');
+                card.style.opacity = '0.5';
+                
+                setTimeout(() => {
+                    document.getElementById('bigYearDisplay').innerText = year;
+                    document.getElementById('timelineImg').src = timelineData[year].img;
+                    const activeTimeline = currentLanguage === 'en' ? localizedTimeline[year] : timelineData[year];
+                    document.getElementById('timelineRole').innerText = activeTimeline.role;
+                    document.getElementById('timelineTitle').innerText = activeTimeline.title;
+                    document.getElementById('timelineBody').innerText = activeTimeline.body;
+
+                                        card.style.opacity = '1';
+                    openTimelineSheet(year);
+                }, 200);
+
+            };
+
+                        // --- Folha de trajetória ---
+            const timelineSheetBackdrop = document.getElementById('timelineSheetBackdrop');
+            const sheetTitle = document.getElementById('sheetTitle');
+            const sheetYearStamp = document.getElementById('sheetYearStamp');
+            const sheetImg = document.getElementById('sheetImg');
+            const sheetRole = document.getElementById('sheetRole');
+            const sheetHeading = document.getElementById('sheetHeading');
+            const sheetBody = document.getElementById('sheetBody');
+
+            window.openTimelineSheet = function(year) {
+                const baseData = timelineData[year];
+                const data = currentLanguage === 'en' ? { ...baseData, ...localizedTimeline[year] } : baseData;
+                sheetTitle.innerText = year;
+                sheetYearStamp.innerText = year;
+                sheetImg.src = data.img;
+                sheetImg.alt = currentLanguage === 'en' ? `Journey from ${year}` : `Trajetória de ${year}`;
+                sheetRole.innerText = data.role;
+                sheetHeading.innerText = data.title;
+                sheetBody.innerText = data.body;
+                const timelineSheet = document.querySelector('#timelineSheetBackdrop');
+                timelineSheet.querySelector('span.text-xs').innerText = currentLanguage === 'en' ? '• JOURNEY SHEET' : '• FOLHA DE TRAJETÓRIA';
+                timelineSheet.querySelector('span.font-editorial').innerText = currentLanguage === 'en' ? 'personal archive' : 'arquivo pessoal';
+                timelineSheet.querySelector('div.mt-9 span:first-child').innerText = currentLanguage === 'en' ? 'Oli Creator • Direction & Production' : 'Oli Creator • Direção & Produção';
+                timelineSheet.querySelector('button').setAttribute('aria-label', currentLanguage === 'en' ? 'Close journey sheet' : 'Fechar folha de trajetória');
+                timelineSheetBackdrop.classList.add('is-open');
+                document.body.classList.add('overflow-hidden');
+            };
+
+            window.closeTimelineSheet = function(event) {
+                if (event && event.target !== timelineSheetBackdrop) return;
+                timelineSheetBackdrop.classList.remove('is-open');
+                document.body.classList.remove('overflow-hidden');
+            };
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && timelineSheetBackdrop.classList.contains('is-open')) {
+                    closeTimelineSheet();
+                }
+            });
+
+            // --- Event Filter Logic ---
+
+            window.filterEvents = function(category, btnElement) {
+                // Update active button styles
+                const buttons = document.querySelectorAll('.event-filter-btn');
+                buttons.forEach(btn => {
+                    btn.classList.remove('bg-[#8C1226]', 'text-white');
+                    btn.classList.add('bg-stone-300', 'text-stone-800');
+                });
+                
+                if(btnElement) {
+                    btnElement.classList.remove('bg-stone-300', 'text-stone-800');
+                    btnElement.classList.add('bg-[#8C1226]', 'text-white');
+                }
+
+                // Filter table rows
+                const rows = document.querySelectorAll('.event-row');
+                rows.forEach(row => {
+                    if(category === 'all' || row.dataset.cat === category) {
+                        row.style.display = 'table-row';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            };
+
+                        // --- Service detail sheet ---
+            const serviceDetails = {
+                palestra: { title: 'Palestras & Workshops', intro: 'Cobertura completa para transformar cada apresentação num conteúdo profissional e fácil de partilhar.', video: '1 vídeo resumo de 2–3 min', photos: 'Até 20 fotografias tratadas', delivery: 'Prazo: 3–5 dias úteis' },
+                social: { title: 'Aniversários & Reuniões Familiares', intro: 'Um registo emotivo e espontâneo dos momentos que fazem o evento ser inesquecível.', video: '1 vídeo celebrativo de 3–5 min', photos: 'Até 40 fotografias tratadas', delivery: 'Prazo: 5–7 dias úteis' },
+                coquetel: { title: 'Inaugurações & Coquetéis', intro: 'Imagens elegantes de pessoas, detalhes, ambiente e marca, com ritmo ideal para divulgação.', video: '1 teaser institucional de 1–2 min', photos: 'Até 25 fotografias tratadas', delivery: 'Prazo: 48–72 horas' },
+                storymaker: { title: 'Storymaker em Tempo Real', intro: 'Conteúdo vertical criado durante o próprio evento para publicar enquanto a experiência está a acontecer.', video: '3–5 vídeos verticais de 15–45 s', photos: '5–10 fotografias rápidas', delivery: 'Entrega: durante o evento' },
+                editor: { title: 'Edição de Vídeo', intro: 'Montagem narrativa a partir dos seus ficheiros, com ritmo, organização e acabamento profissional.', video: '1 vídeo final até 10 min', photos: 'Seleção de 5 frames em alta', delivery: 'Prazo: 3–7 dias úteis' },
+                color: { title: 'Color Grading / Colorista', intro: 'Tratamento visual para uniformizar, corrigir e criar uma atmosfera cinematográfica consistente.', video: '1 vídeo final até 15 min', photos: '5 frames de referência tratados', delivery: 'Prazo: 2–4 dias úteis' }
+            };
+            const serviceSheetBackdrop = document.getElementById('serviceSheetBackdrop');
+            window.openServiceDetails = function(key) {                 const data = (currentLanguage === 'en' ? localizedServices[key] : serviceDetails[key]); if (!data) return;                 document.getElementById('serviceSheetTitle').innerText = data.title; document.getElementById('serviceSheetIntro').innerText = data.intro; document.getElementById('serviceSheetBackdrop').querySelector('span.text-xs').innerText = currentLanguage === 'en' ? '• WHAT IS INCLUDED' : '• O QUE ESTÁ INCLUÍDO'; document.getElementById('serviceSheetBackdrop').querySelector('span:last-child').innerText = currentLanguage === 'en' ? 'Tailored quote' : 'Orçamento sob medida'; document.getElementById('serviceSheetDelivery').innerText = data.delivery; document.getElementById('serviceSheetItems').innerHTML = [['fa-film',currentLanguage === 'en' ? 'Video' : 'Vídeo',data.video],['fa-camera',currentLanguage === 'en' ? 'Photographs' : 'Fotografias',data.photos],['fa-clock',currentLanguage === 'en' ? 'Delivery' : 'Entrega',data.delivery]].map(([icon,label,value]) => `<div class="bg-[#E6E0D2] border border-stone-300 rounded p-4"><i class="fa-solid ${icon} text-[#8C1226] text-xl mb-3"></i><span class="block text-[10px] uppercase tracking-widest font-bold text-stone-500">${label}</span><strong class="block font-oswald text-lg uppercase leading-tight mt-1">${value}</strong></div>`).join(''); serviceSheetBackdrop.classList.add('is-open'); document.body.classList.add('overflow-hidden'); };
+            window.closeServiceDetails = function(event) { if (event && event.target !== serviceSheetBackdrop) return; serviceSheetBackdrop.classList.remove('is-open'); document.body.classList.remove('overflow-hidden'); };
+
+            // --- Modal Logic ---
+
+            const modal = document.getElementById('projectModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            const localizedProjects = {
+                'Minissérie Autoral': { title: 'Authorial Miniseries', desc: 'Fiction series with multiple episodes focused on dramatic depth, directing non-professional actors and rigorous shot composition in a suspense tone.', role: 'Scene Director, Screenwriter & Editor' },
+                'Coleção de Curtas-Metragens': { title: 'Short Film Collection', desc: 'Set of four short films made between 2023 and 2025, exploring interpersonal conflicts through cinema lenses and high-contrast lighting.', role: 'Director & Colorist' },
+                'Direção Criativa Ondaka': { title: 'Ondaka Creative Direction', desc: 'Work at Ondaka, one of the leading marketing companies. Responsible for aligning artistic vision, commercial strategy and visual scripts for corporate clients.', role: 'Creative Director' }
+            };
+            window.openProjectModal = function(title, desc, role, year) {
+                const project = currentLanguage === 'en' && localizedProjects[title] ? localizedProjects[title] : { title, desc, role };
+                document.getElementById('modalTitle').innerText = project.title;
+                document.getElementById('modalDesc').innerText = project.desc;
+                document.getElementById('modalRole').innerText = project.role;
+                                document.getElementById('modalYear').innerText = year;
+                document.getElementById('projectModal').querySelector('button.w-full').innerText = currentLanguage === 'en' ? 'Close Details' : 'Fechar Detalhes';
+                
+                modal.classList.remove('hidden');
+
+                // slight delay for animation
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalContent.classList.remove('scale-95');
+                }, 10);
+            };
+
+            window.closeProjectModal = function() {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300); // matches transition duration
+            };
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if(e.target === modal) {
+                    closeProjectModal();
+                }
+            });
+
+            // --- Full Gallery (25 Fotos) & Lightbox Logic ---
+            const fullGalleryModal = document.getElementById('fullGalleryModal');
+            const galleryGrid25 = document.getElementById('galleryGrid25');
+            const lightboxModal = document.getElementById('lightboxModal');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxCaption = document.getElementById('lightboxCaption');
+
+            // Array com 25 fotos temáticas de set, cinema, edição e bastidores
+            const photos25 = [
+                { url: './img/carliteira05.jpg.jpeg', title: '01. Set Principal - Câmera de Cinema' },
+                { url: './img/2.png', title: '02. Edição e Colorgrang' },
+                { url: './img/3.png', title: '03. Videomaker Filda 2026' },
+                { url: './img/4.png', title: '04. Videomaker Filda 2026' },
+                { url: './img/5.png', title: '05. Direção Video Comercial Feira do Kilamba' },
+                { url: './img/6.png', title: '06. Direção da Miniserie' },
+                { url: './img/7.png', title: '07. short film: Iluminação e direção' },
+                { url: './img/8.jpg', title: '08. Videomaker Casamento' },
+                { url: './img/9.jpg', title: '09. Videomaker Casamento' },
+                { url: './img/10.jpg', title: '10. Direção da Miniserie' },
+                { url: './img/11.jpg', title: '11. Direção da Miniserie' },
+                { url: './img/12.jpg', title: '12. Direção da Miniserie' },
+                { url: './img/13.jpg', title: '13. Backstage Miniserie' },
+                { url: './img/14.jpg', title: '14. Angotic' },
+                { url: './img/15.jpg', title: '15. Backstage Miniserie' },
+                { url: './img/16.jpg', title: '16. Direção de video Comercial E-ZINGA' },
+                { url: './img/17.jpg', title: '17. Direção de iluminação Video clip' },
+                { url: './img/18.jpg', title: '18. Direção de iluminação Video clip' },
+                { url: './img/19.jpg', title: '19. Direção de iluminação Video clip' },
+                { url: './img/20.jpg', title: '20. Angotic' },
+                { url: './img/21.jpeg', title: '21. Brunch da curiosa' },
+                { url: './img/22.jpeg', title: '22. Brunch da curiosa' },
+                { url: './img/23.jpeg', title: '23. Brunch da curiosa' },
+                { url: './img/24.jpg', title: '24. Jogos Africanos da Juventude' },
+                { url: './img/25.jpg', title: '25. Jogos Africanos da Juventude' }
+            ];
+
+            // Popular grid dinamicamente
+                        const localizedPhotoTitles = [
+                '01. Main Set - Cinema Camera', '02. Fine Anamorphic Lens Adjustment', '03. Editing and Post-Production Suite', '04. Location Scene Direction', '05. Film and Official Clapperboard', '06. Carlos Oliveira at the Monitor', '07. Short Film: Noir Lighting', '08. Ondaka Advertising Campaign', '09. Authorial Miniseries - Take 12', '10. Gimbal Stabiliser Operation', '11. Corporate Event Coverage', '12. Keynote & Impact Talks', '13. Opening Cocktail', '14. Live Storymaker in Action', '15. Content Production for Brands', '16. Colour Grading: Colour and LUT Adjustment', '17. Art Direction and Set Design', '18. Script Alignment on Set', '19. Executive Production Meeting', '20. Audio Editing and Sound Design', '21. Metrics and Engagement Analysis', '22. Audiovisual Workshop', '23. Creative Team Brainstorming', '24. Digital Campaign Planning', '25. Project Closing & Celebration'
+            ];
+            function renderFullGalleryGrid() {
+                galleryGrid25.innerHTML = '';
+                photos25.forEach((photo, index) => {
+                    const displayTitle = currentLanguage === 'en' ? localizedPhotoTitles[index] : photo.title;
+                    const card = document.createElement('div');
+
+                    card.className = 'bg-stone-900 rounded overflow-hidden border-2 border-stone-800 hover:border-amber-300 transition duration-300 cursor-pointer group shadow-lg';
+                    card.innerHTML = `
+                        <div class="h-40 overflow-hidden relative">
+                            <img src="${photo.url}" alt="${photo.title}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition duration-500">
+                            <span class="absolute top-2 left-2 bg-[#8C1226] text-amber-200 text-[10px] font-bold px-2 py-0.5 rounded font-oswald">#${index+1}</span>
+                        </div>
+                        <div class="p-3 bg-stone-950">
+                                                        <p class="text-amber-100 font-oswald text-xs uppercase tracking-wider truncate">${displayTitle}</p>
+
+                        </div>
+                    `;
+                    card.addEventListener('click', () => {
+                                                openLightbox(photo.url, currentLanguage === 'en' ? localizedPhotoTitles[index] : photo.title);
+
+                    });
+                    galleryGrid25.appendChild(card);
+                });
+            }
+            renderFullGalleryGrid();
+
+                        window.openFullGallery = function() {
+                document.getElementById('galleryArchiveLabel').innerText = currentLanguage === 'en' ? '• COMPLETE VISUAL ARCHIVE' : '• ARQUIVO VISUAL COMPLETO';
+                document.getElementById('galleryArchiveTitle').innerText = currentLanguage === 'en' ? 'Behind-the-Scenes Gallery (25 Official Photos)' : 'Galeria de Bastidores (25 Fotos Oficiais)';
+                document.getElementById('galleryInstruction').innerText = currentLanguage === 'en' ? 'Click any photograph to view it enlarged' : 'Clique em qualquer fotografia para visualizar em destaque';
+                renderFullGalleryGrid();
+                fullGalleryModal.classList.remove('hidden');
+
+                setTimeout(() => {
+                    fullGalleryModal.classList.remove('opacity-0');
+                }, 10);
+            };
+
+            window.closeFullGallery = function() {
+                fullGalleryModal.classList.add('opacity-0');
+                setTimeout(() => {
+                    fullGalleryModal.classList.add('hidden');
+                }, 300);
+            };
+
+                        function openLightbox(url, title) {
+                lightboxImg.src = url;
+                lightboxCaption.innerText = title;
+                document.getElementById('lightboxCloseButton').lastChild.textContent = currentLanguage === 'en' ? ' Close' : ' Fechar';
+
+                lightboxModal.classList.remove('hidden');
+            }
+
+            window.closeLightbox = function() {
+                lightboxModal.classList.add('hidden');
+            };
+
+        } catch (error) {
+            console.error("Error initializing scripts:", error);
+        }
+    </script>
+</body>
+</html>
